@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 const Portfolio = () => {
   const projects = [
     {
@@ -5,8 +8,12 @@ const Portfolio = () => {
       location: "Москва, Северное Бутово",
       date: "Февраль 2024",
       client: "Создать стильный интерьер для молодой семьи с детьми",
-      image:
+      images: [
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=400&fit=crop",
+      ],
       area: "85 м²",
     },
     {
@@ -14,8 +21,12 @@ const Portfolio = () => {
       location: "Санкт-Петербург, Московский район",
       date: "Январь 2024",
       client: "Функциональное пространство для команды из 25 человек",
-      image:
+      images: [
         "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1541746972996-4e0b0f93e586?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=600&h=400&fit=crop",
+      ],
       area: "150 м²",
     },
     {
@@ -23,8 +34,12 @@ const Portfolio = () => {
       location: "Екатеринбург, центр",
       date: "Декабрь 2023",
       client: "Максимально использовать пространство 45 м² для жизни и работы",
-      image:
+      images: [
         "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
+      ],
       area: "45 м²",
     },
     {
@@ -32,8 +47,12 @@ const Portfolio = () => {
       location: "Москва, Арбат",
       date: "Ноябрь 2023",
       client: "Респектабельный интерьер для приема гостей",
-      image:
+      images: [
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=400&fit=crop",
+      ],
       area: "120 м²",
     },
     {
@@ -41,8 +60,12 @@ const Portfolio = () => {
       location: "Казань, Приволжский район",
       date: "Октябрь 2023",
       client: "Кухня мечты для семьи, которая любит готовить",
-      image:
+      images: [
         "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1556909045-f7c3c5bd640b?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1556909045-f7c3c5bd640b?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1556909045-4d5c2f4745d6?w=600&h=400&fit=crop",
+      ],
       area: "60 м²",
     },
     {
@@ -50,11 +73,43 @@ const Portfolio = () => {
       location: "Новосибирск, Академгородок",
       date: "Сентябрь 2023",
       client: "Безопасная и развивающая среда для двух детей",
-      image:
+      images: [
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=400&fit=crop",
+      ],
       area: "35 м²",
     },
   ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState<{
+    [key: number]: number;
+  }>({});
+
+  const nextImage = (projectIndex: number) => {
+    setCurrentImageIndex((prev) => ({
+      ...prev,
+      [projectIndex]:
+        ((prev[projectIndex] || 0) + 1) % projects[projectIndex].images.length,
+    }));
+  };
+
+  const prevImage = (projectIndex: number) => {
+    setCurrentImageIndex((prev) => ({
+      ...prev,
+      [projectIndex]:
+        ((prev[projectIndex] || 0) - 1 + projects[projectIndex].images.length) %
+        projects[projectIndex].images.length,
+    }));
+  };
+
+  const goToImage = (projectIndex: number, imageIndex: number) => {
+    setCurrentImageIndex((prev) => ({
+      ...prev,
+      [projectIndex]: imageIndex,
+    }));
+  };
 
   return (
     <section id="portfolio" className="bg-gray-50 py-20">
@@ -72,11 +127,44 @@ const Portfolio = () => {
               key={index}
               className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-48 object-cover"
-              />
+              <div className="relative group">
+                <img
+                  src={project.images[currentImageIndex[index] || 0]}
+                  alt={project.title}
+                  className="w-full h-48 object-cover transition-opacity duration-300"
+                />
+
+                {/* Navigation arrows */}
+                <button
+                  onClick={() => prevImage(index)}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-opacity-70"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <button
+                  onClick={() => nextImage(index)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-opacity-70"
+                >
+                  <ChevronRight size={20} />
+                </button>
+
+                {/* Dot indicators */}
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                  {project.images.map((_, imageIndex) => (
+                    <button
+                      key={imageIndex}
+                      onClick={() => goToImage(index, imageIndex)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        (currentImageIndex[index] || 0) === imageIndex
+                          ? "bg-white"
+                          : "bg-white bg-opacity-50 hover:bg-opacity-70"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
               <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">
                   {project.title}
